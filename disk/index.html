@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Almacenamiento</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h2>Info del almacenamiento</h2>
+    <table>
+        <tr>
+            <th>Tipo</th>
+            <th>Fecha</th>
+            <th>Analizador</th>
+        </tr>
+        <tr>
+            <td>
+                <select id="tipo" onchange="actualizarPruebas()">
+                    <option value="" disabled selected>Seleccionar...</option>
+                    <option value="HDD">HDD</option>
+                    <option value="SSD SATA">SSD SATA</option>
+                    <option value="SSD NVMe">SSD NVMe</option>
+                </select>
+            </td>
+            <td><input type="date" id="fecha"></td>
+            <td><input type="text" id="analizador" placeholder="Nombre"></td>
+        </tr>
+    </table>
+
+    <h2>Estado</h2>
+    <table class="estado-table">
+        <tr>
+            <td>Salud</td>
+            <td>
+                <select id="salud">
+                    <option value="" disabled selected>Seleccionar estado...</option>
+                    <option value="Saludable">Saludable (>80%)</option>
+                    <option value="Aceptable">Aceptable (40%-80%)</option>
+                    <option value="Riesgoso">Riesgoso (10%-40%)</option>
+                    <option value="Desconocido">Desconocido</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Pruebas Secuenciales</td>
+            <td>
+                <select id="secuenciales">
+                    <option value="" disabled selected>Selecciona un tipo primero</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Pruebas Aleatorias</td>
+            <td>
+                <select id="aleatorias">
+                    <option value="" disabled selected>Selecciona un tipo primero</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <button class="btn-generar" onclick="generarURL()">Generar URL</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
