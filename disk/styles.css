@@ -13,13 +13,13 @@ body {
 h2 {
     font-weight: normal;
     font-size: 22px;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     text-align: center;
 }
 
 table {
     width: 100%;
-    max-width: 450px; /* Un poco más estrecho para que luzca mejor centrado */
+    max-width: 450px; 
     border-collapse: collapse;
     margin-bottom: 10px;
     background-color: white;
@@ -27,11 +27,20 @@ table {
 
 td {
     border: 2px solid black;
-    padding: 10px;
     text-align: center;
     vertical-align: middle;
-    /* Altura para dar aire al texto de dos filas */
-    height: 60px; 
+}
+
+/* --- TABLA INFO: Compacta --- */
+.info-table td {
+    padding: 6px 4px;
+    height: 40px; 
+}
+
+/* --- TABLA ESTADO: Como estaba antes (Espaciosa) --- */
+.estado-table td {
+    padding: 10px;
+    height: 60px; /* Altura original para dar aire a las dos filas */
 }
 
 .info-table td:first-child,
@@ -50,17 +59,15 @@ input, select {
     background: transparent;
     cursor: pointer;
     font-family: inherit;
-    /* Intentamos forzar el salto de línea visual */
     display: block;
     white-space: pre-line;
     line-height: 1.2;
     margin: 0 auto;
 }
 
-/* Centrado del texto dentro de los selectores en algunos navegadores */
 select {
     text-align-last: center;
-    appearance: none; /* Quita la flecha nativa si quieres un look más limpio */
+    appearance: none; 
 }
 
 .btn-generar {
@@ -71,18 +78,26 @@ select {
     cursor: pointer;
     font-size: 16px;
     transition: background 0.3s;
-    margin-top: 25px
+    margin-top: 25px;
 }
 
 .btn-generar:hover {
     background-color: #000;
     color: #fff;
 }
+/* Agrega esto para que el calendario no empuje la celda hacia abajo */
+input[type="date"] {
+    padding: 0;
+    min-height: 20px;
+}
 
 /* Optimizaciones para celular */
 @media (max-width: 480px) {
     body { padding: 10px; }
     table { width: 100%; }
-    td { font-size: 14px; height: 70px; }
     h2 { font-size: 18px; }
+    
+    /* Mantenemos la proporción de altura original en móvil */
+    .info-table td { height: 45px; }
+    .estado-table td { font-size: 14px; height: 70px; }
 }
