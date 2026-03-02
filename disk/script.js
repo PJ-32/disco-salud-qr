@@ -106,6 +106,6 @@ window.onload = function() {
         if(opcionAle) document.getElementById("aleatorias").value = opcionAle.value;
 
         document.querySelectorAll('input, select').forEach(el => el.style.pointerEvents = "none");
-        document.querySelector("h2").innerText = "Reporte de Almacenamiento";
+        document.querySelector("h2").innerText = "REPORTE DEL ALMACENAMIENTO";
     }
 };
