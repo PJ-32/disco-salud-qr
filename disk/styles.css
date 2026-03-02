@@ -71,6 +71,7 @@ select {
     cursor: pointer;
     font-size: 16px;
     transition: background 0.3s;
+    margin-top: 25px
 }
 
 .btn-generar:hover {
