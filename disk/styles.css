@@ -1,31 +1,44 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 40px;
+    margin: 0;
+    padding: 20px;
     color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #fcfcfc;
 }
 
 h2 {
     font-weight: normal;
-    font-size: 24px;
-    margin-bottom: 10px;
+    font-size: 22px;
+    margin-bottom: 15px;
+    text-align: center;
 }
 
 table {
     width: 100%;
-    max-width: 600px;
+    max-width: 450px; /* Un poco más estrecho para que luzca mejor centrado */
     border-collapse: collapse;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
+    background-color: white;
 }
 
-th, td {
+td {
     border: 2px solid black;
-    padding: 12px;
+    padding: 10px;
     text-align: center;
+    vertical-align: middle;
+    /* Altura para dar aire al texto de dos filas */
+    height: 60px; 
 }
 
-th {
-    background-color: #fff;
+.info-table td:first-child,
+.estado-table td:first-child {
+    width: 40%;
     font-weight: bold;
+    background-color: #f9f9f9;
 }
 
 input, select {
@@ -37,28 +50,38 @@ input, select {
     background: transparent;
     cursor: pointer;
     font-family: inherit;
+    /* Intentamos forzar el salto de línea visual */
+    display: block;
+    white-space: pre-line;
+    line-height: 1.2;
+    margin: 0 auto;
 }
 
+/* Centrado del texto dentro de los selectores en algunos navegadores */
 select {
     text-align-last: center;
-}
-
-.estado-table td:first-child {
-    width: 40%;
-    font-weight: bold;
+    appearance: none; /* Quita la flecha nativa si quieres un look más limpio */
 }
 
 .btn-generar {
-    display: inline-block;
-    padding: 10px 20px;
+    padding: 12px 30px;
     border: 2px solid black;
     background-color: white;
     font-weight: bold;
     cursor: pointer;
     font-size: 16px;
-    margin-top: 10px;
+    transition: background 0.3s;
 }
 
 .btn-generar:hover {
-    background-color: #f0f0f0;
+    background-color: #000;
+    color: #fff;
+}
+
+/* Optimizaciones para celular */
+@media (max-width: 480px) {
+    body { padding: 10px; }
+    table { width: 100%; }
+    td { font-size: 14px; height: 70px; }
+    h2 { font-size: 18px; }
 }

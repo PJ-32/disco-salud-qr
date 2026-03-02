@@ -1,4 +1,3 @@
-// 1. Base de datos original
 const opcionesPorTipo = {
     "HDD": {
         secuenciales: ["Lento (<120)", "Normal (120-180)", "Rapido (>180)"],
@@ -14,17 +13,12 @@ const opcionesPorTipo = {
     }
 };
 
-// 2. Diccionario para acortar la URL (mapeo)
 const mapaCorto = {
-    // Tipos
     "HDD": "h", "SSD SATA": "s", "SSD NVMe": "n",
-    // Salud
     "Saludable": "s1", "Aceptable": "s2", "Riesgoso": "s3", "Desconocido": "s4",
-    // Velocidades
     "Lento": "l", "Normal": "m", "Rapido": "r"
 };
 
-// Función inversa para leer la URL
 const obtenerLargo = (valorCorto) => Object.keys(mapaCorto).find(key => mapaCorto[key] === valorCorto);
 
 function actualizarPruebas() {
@@ -54,19 +48,26 @@ function agregarOpcionPlaceholder(selectElement) {
 
 function agregarOpcion(selectElement, texto) {
     let opt = document.createElement("option");
-    opt.value = texto; opt.textContent = texto;
+    opt.value = texto;
+    
+    // Si el texto tiene un paréntesis, intentamos inyectar el salto
+    if (texto.includes(" (")) {
+        opt.textContent = texto.replace(" (", "\n(");
+    } else {
+        opt.textContent = texto;
+    }
+    
     selectElement.appendChild(opt);
 }
 
 function generarURL() {
-    // Extraemos solo la primera palabra de las pruebas (Lento, Normal, Rapido) para la URL
     const getCortoVel = (id) => mapaCorto[document.getElementById(id).value.split(' ')[0]] || "";
 
     const datosCortos = {
         t: mapaCorto[document.getElementById("tipo").value],
         f: document.getElementById("fecha").value,
         a: document.getElementById("analizador").value,
-        s: mapaCorto[document.getElementById("salud").value.split(' ')[0]],
+        s: mapaCorto[document.getElementById("salud").value.split(' ')[0]] || "",
         ps: getCortoVel("secuenciales"),
         pa: getCortoVel("aleatorias")
     };
@@ -83,29 +84,25 @@ window.onload = function() {
     const urlParams = new URLSearchParams(window.location.search);
     
     if (urlParams.has('t')) {
-        // Traducimos de corto a largo
-        const tipoLargo = obtenerLargo(urlParams.get('t'));
-        document.getElementById("tipo").value = tipoLargo;
+        document.getElementById("tipo").value = obtenerLargo(urlParams.get('t'));
         document.getElementById("fecha").value = urlParams.get('f');
         document.getElementById("analizador").value = urlParams.get('a');
         
-        // Buscar salud que empiece por la palabra mapeada
         const saludLetra = obtenerLargo(urlParams.get('s'));
         const opcionSalud = Array.from(document.getElementById("salud").options)
-                            .find(opt => opt.text.startsWith(saludLetra));
+                            .find(opt => opt.text.includes(saludLetra));
         if(opcionSalud) document.getElementById("salud").value = opcionSalud.value;
 
         actualizarPruebas();
 
-        // Buscar velocidad que empiece por la palabra mapeada
         const velSec = obtenerLargo(urlParams.get('ps'));
         const opcionSec = Array.from(document.getElementById("secuenciales").options)
-                            .find(opt => opt.text.startsWith(velSec));
+                            .find(opt => opt.text.includes(velSec));
         if(opcionSec) document.getElementById("secuenciales").value = opcionSec.value;
 
         const velAle = obtenerLargo(urlParams.get('pa'));
         const opcionAle = Array.from(document.getElementById("aleatorias").options)
-                            .find(opt => opt.text.startsWith(velAle));
+                            .find(opt => opt.text.includes(velAle));
         if(opcionAle) document.getElementById("aleatorias").value = opcionAle.value;
 
         document.querySelectorAll('input, select').forEach(el => el.style.pointerEvents = "none");

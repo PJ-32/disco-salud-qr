@@ -8,14 +8,10 @@
 </head>
 <body>
 
-    <h2>Info del almacenamiento</h2>
-    <table>
+    <h2>INFO DEL ALMACENAMIENTO</h2>
+    <table class="info-table">
         <tr>
-            <th>Tipo</th>
-            <th>Fecha</th>
-            <th>Analizador</th>
-        </tr>
-        <tr>
+            <td>Tipo</td>
             <td>
                 <select id="tipo" onchange="actualizarPruebas()">
                     <option value="" disabled selected>Seleccionar...</option>
@@ -24,21 +20,27 @@
                     <option value="SSD NVMe">SSD NVMe</option>
                 </select>
             </td>
+        </tr>
+        <tr>
+            <td>Fecha</td>
             <td><input type="date" id="fecha"></td>
-            <td><input type="text" id="analizador" placeholder="Nombre"></td>
+        </tr>
+        <tr>
+            <td>Analizador</td>
+            <td><input type="text" id="analizador" placeholder="Nombre" maxlength="10"></td>
         </tr>
     </table>
 
-    <h2>Estado</h2>
+    <h2>ESTADO</h2>
     <table class="estado-table">
         <tr>
             <td>Salud</td>
             <td>
                 <select id="salud">
                     <option value="" disabled selected>Seleccionar estado...</option>
-                    <option value="Saludable">Saludable (>80%)</option>
-                    <option value="Aceptable">Aceptable (40%-80%)</option>
-                    <option value="Riesgoso">Riesgoso (10%-40%)</option>
+                    <option value="Saludable">Saludable &#10; (>80%)</option>
+                    <option value="Aceptable">Aceptable &#10; (40%-80%)</option>
+                    <option value="Riesgoso">Riesgoso &#10; (10%-40%)</option>
                     <option value="Desconocido">Desconocido</option>
                 </select>
             </td>
