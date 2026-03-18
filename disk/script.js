@@ -25,6 +25,11 @@ function actualizarPruebas() {
     const tipoSeleccionado = document.getElementById("tipo").value;
     const selectSecuenciales = document.getElementById("secuenciales");
     const selectAleatorias = document.getElementById("aleatorias");
+    const prefijoID = document.getElementById("prefijoID");
+
+    // Lógica del Prefijo Automático
+    const letras = { "HDD": "H", "SSD SATA": "S", "SSD NVMe": "N" };
+    if (prefijoID) prefijoID.textContent = letras[tipoSeleccionado] || "-";
 
     selectSecuenciales.innerHTML = "";
     selectAleatorias.innerHTML = "";
@@ -49,21 +54,29 @@ function agregarOpcionPlaceholder(selectElement) {
 function agregarOpcion(selectElement, texto) {
     let opt = document.createElement("option");
     opt.value = texto;
-    
-    // Si el texto tiene un paréntesis, intentamos inyectar el salto
     if (texto.includes(" (")) {
         opt.textContent = texto.replace(" (", "\n(");
     } else {
         opt.textContent = texto;
     }
-    
     selectElement.appendChild(opt);
 }
 
 function generarURL() {
+    const prefijo = document.getElementById("prefijoID").textContent;
+    const sufixo = document.getElementById("serial5").value.trim().toUpperCase();
+
+    // Validación de seguridad para el ID
+    if (prefijo === "-" || sufixo.length < 5) {
+        alert("Por favor, selecciona un Tipo e ingresa los 5 dígitos del Serial.");
+        return;
+    }
+
+    const idCompleto = prefijo + sufixo;
     const getCortoVel = (id) => mapaCorto[document.getElementById(id).value.split(' ')[0]] || "";
 
     const datosCortos = {
+        id: idCompleto, // Nuevo parámetro en la URL
         t: mapaCorto[document.getElementById("tipo").value],
         f: document.getElementById("fecha").value,
         a: document.getElementById("analizador").value,
@@ -76,7 +89,7 @@ function generarURL() {
     const urlFinal = `${window.location.origin}${window.location.pathname}?${params}`;
 
     navigator.clipboard.writeText(urlFinal).then(() => {
-        alert("¡URL Corta copiada!");
+        alert(`¡URL copiada para el disco ${idCompleto}!`);
     });
 }
 
@@ -84,6 +97,13 @@ window.onload = function() {
     const urlParams = new URLSearchParams(window.location.search);
     
     if (urlParams.has('t')) {
+        // Cargar el ID de 6 dígitos
+        const idCargado = urlParams.get('id') || "";
+        if (idCargado) {
+            document.getElementById("prefijoID").textContent = idCargado.charAt(0);
+            document.getElementById("serial5").value = idCargado.substring(1);
+        }
+
         document.getElementById("tipo").value = obtenerLargo(urlParams.get('t'));
         document.getElementById("fecha").value = urlParams.get('f');
         document.getElementById("analizador").value = urlParams.get('a');
@@ -105,6 +125,7 @@ window.onload = function() {
                             .find(opt => opt.text.includes(velAle));
         if(opcionAle) document.getElementById("aleatorias").value = opcionAle.value;
 
+        // Bloquear edición en modo lectura
         document.querySelectorAll('input, select').forEach(el => el.style.pointerEvents = "none");
         document.querySelector("h2").innerText = "REPORTE DEL ALMACENAMIENTO";
     }
